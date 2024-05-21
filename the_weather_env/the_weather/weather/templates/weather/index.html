@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Current Weather</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
     <style>
+
         .hero.is-primary {
             background-color: #89CFF0;
-        }
-
-        .section.is-primary {
-            background-color: #f5f5f5;
         }
 
         .city-box {
@@ -20,25 +18,90 @@
             border-radius: 5px;
             padding: 1rem;
             margin-bottom: 1rem;
+            transition: transform 0.3s ease-in-out;
+            transform: scale(1);
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+
+        .city-box:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        #city-box-container {
+          column-count: 3;
+          column-gap: 1em;
+        }
+
+        .city-box {
+          display: inline-block;
+          width: 100%;
+          margin-bottom: 1em;
+          break-inside: avoid;
+        }
+
+        @media (max-width: 768px) {
+          #city-box-container {
+            column-count: 2;
+          }
+        }
+
+        @media (max-width: 480px) {
+          #city-box-container {
+            column-count: 1;
+          }
         }
     </style>
+
 </head>
 <body>
-    <section class="hero is-primary">
-        <div class="hero-body">
-            <div class="container">
-                <h1 class="title">
-                    Temperatura atual
-                </h1>
-                <p class="subtitle">Veja o clima em qualquer cidade do globo! </p>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        </style>
+    <div class="d-flex flex-column justify-content-center w-100 h-100">
+        <section class="hero">
+            <div class="hero-body">
+                <div class="container has-text-centered">
+                    <h1 class="title is-size-1 has-text-white" style="padding-top: 100px; padding-bottom: 50px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Current Global Temperature</h1>
+                    <p class="subtitle is-size-2 has-text-white" style="padding-bottom: 50px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Get Real-time Weather Information for Any City in the World</p>
+                </div>
             </div>
-        </div>
-    </section>
-    <section class="section is-primary">
-        <div class="container has-text-centered">
+        </section>
+        <div class="container">
             <div class="columns">
                 <div class="column is-offset-4 is-4">
-                    <form method="POST">
+                         <form method="POST">
                         {% csrf_token %}
                         <div class="field has-addons">
                             <div class="control is-expanded">
@@ -47,25 +110,24 @@
                             <div class="control">
                                 <button class="button is-info">
                                     Add City
-                                </button>
-                            </div>
+                            </button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
-    </section>
-    <section class="section">
-        <div class="container">
-            <div class="columns">
-                <div class="column is-offset-4 is-4">
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-offset-4 is-4">
+                <div id="city-box-container">
                     {% for weather in weather_data %}
                     <div class="city-box">
                         <div class="media">
                             <div class="media-left">
                                 <figure class="image is-50x50">
                                     <img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Image">
-                                </figure>
+                                  </figure>
                             </div>
                             <div class="media-content has-text-centered">
                                 <div class="content">
@@ -77,13 +139,16 @@
                                     <p style="margin-top: 1rem;">
                                         {{ weather.description }}
                                     </p>
+                                    <p>
+                                       Max: {{ weather.max_temp }}° C, Min: {{ weather.min_temp }}° C
+                                    </p>
                                 </div>
                             </div>
                             <div class="media-right">
                                 <div class="field is-grouped">
                                     <p class="control">
                                         <a href="{% url 'delete_city' weather.city.id %}" class="button is-danger">
-                                            Remove
+                                            Remover
                                         </a>
                                     </p>
                                 </div>
@@ -94,9 +159,16 @@
                 </div>
             </div>
         </div>
-    </section>
-    <footer class="footer">
-        <p>&copy; 2023 Current Weather</p>
-    </footer>
+    </div>
+    <script>
+        // Initialize Masonry
+        var elem = document.querySelector('#city-box-container');
+        var msnry = new Masonry( elem, {
+            // options
+            itemSelector: '.city-box',
+            columnWidth: '.city-box',
+            percentPosition: true
+        });
+    </script>
 </body>
 </html>
