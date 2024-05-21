@@ -13,16 +13,16 @@ def index(request):
         form.save() # will validate and save if validate
         
     form = CityForm()
-
+    
     weather_data = []
 
     for city in cities:
 
         city_weather = requests.get(url.format(city)).json() #request the API data and convert the JSON to Python data types
-
+        
         weather = {
             'city' : city,
-            'temperature' : city_weather['main']['temp'],
+            'temperature' : round((city_weather['main']['temp'] - 32) * 5/9),
             'description' : city_weather['weather'][0]['description'],
             'icon' : city_weather['weather'][0]['icon']
         }
