@@ -37,10 +37,6 @@
             }
         }
 
-        #city-box-container {
-          column-count: 3;
-          column-gap: 1em;
-        }
 
         .city-box {
           display: inline-block;
@@ -118,57 +114,46 @@
         </div>
     </div>
     <div class="container">
-        <div class="columns">
-            <div class="column is-offset-4 is-4">
-                <div id="city-box-container">
-                    {% for weather in weather_data %}
-                    <div class="city-box">
-                        <div class="media">
-                            <div class="media-left">
-                                <figure class="image is-50x50">
-                                    <img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Image">
-                                  </figure>
-                            </div>
-                            <div class="media-content has-text-centered">
-                                <div class="content">
-                                    <p>
-                                        <span class="title">{{ weather.city }}</span>
-                                        <br>
-                                        <span class="subtitle">{{ weather.temperature }} C°</span>
-                                    </p>
-                                    <p style="margin-top: 1rem;">
-                                        {{ weather.description }}
-                                    </p>
-                                    <p>
-                                       Max: {{ weather.max_temp }}° C, Min: {{ weather.min_temp }}° C
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="media-right">
-                                <div class="field is-grouped">
-                                    <p class="control">
-                                        <a href="{% url 'delete_city' weather.city.id %}" class="button is-danger">
-                                            Remover
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
+        <div class="columns is-multiline">
+            {% for weather in weather_data %}
+            <div class="column is-4">
+              <div class="city-box">
+                <div class="media">
+                    <div class="media-left">
+                        <figure class="image is-50x50">
+                            <img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Image">
+                          </figure>
+                    </div>
+                    <div class="media-content has-text-centered">
+                        <div class="content">
+                            <p>
+                                <span class="title">{{ weather.city }}</span>
+                                <br>
+                                <span class="subtitle">{{ weather.temperature }} C°</span>
+                            </p>
+                            <p style="margin-top: 1rem;">
+                                {{ weather.description }}
+                            </p>
+                            <p>
+                               Max: {{ weather.max_temp }}° C, Min: {{ weather.min_temp }}° C
+                            </p>
                         </div>
                     </div>
-                    {% endfor %}
+                    <div class="media-right">
+                        <div class="field is-grouped">
+                            <p class="control">
+                                <a href="{% url 'delete_city' weather.city.id %}" class="button is-danger">
+                                    Remover
+                                </a>
+                            </p>
+                        </div>
+                    </div>
                 </div>
+              </div>
             </div>
+            {% endfor %}
         </div>
     </div>
-    <script>
-        // Initialize Masonry
-        var elem = document.querySelector('#city-box-container');
-        var msnry = new Masonry( elem, {
-            // options
-            itemSelector: '.city-box',
-            columnWidth: '.city-box',
-            percentPosition: true
-        });
-    </script>
+</div>
 </body>
 </html>
