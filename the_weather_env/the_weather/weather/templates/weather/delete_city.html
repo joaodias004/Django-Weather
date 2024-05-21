@@ -1,0 +1,10 @@
+{% extends 'weather/base.html' %}
+
+{% block content %}
+  <h1>Delete City</h1>
+  <p>Tem certeza que deseja remover a cidade "{{ city.name }}"?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Remover</button>
+  </form>
+{% endblock %}

@@ -60,10 +60,14 @@
                                     </p>
                                 </div>
                             </div>
+                            <div class="media-right">
+                                <a href="{% url 'delete_city' weather.city.id %}" class="button is-danger">
+                                    Remover
+                                </a>
+                            </div>
                         </article>
                     </div>
                     {% endfor %}
-                </div>
         </div>
     </section>
     <footer class="footer">

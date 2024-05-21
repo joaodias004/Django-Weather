@@ -3,6 +3,13 @@ import requests
 from .models import City
 from .forms import CityForm
 
+from django.shortcuts import render, get_object_or_404, redirect
+
+def delete_city(request, city_id):
+    city = get_object_or_404(City, id=city_id)
+    city.delete()
+    return redirect('index')
+
 def index(request):
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=4ad71bf77fea6b62d9aa2203c9cb22da'
 
