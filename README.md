@@ -3,6 +3,7 @@
  Website feito com Python, Django e o framework Bulma para CSS.
 Adicione a cidade que deseja para a lista via barra de pesquisa, e veja a cidade ser incluida na lista com uma simples animação.
 Cidades adicionadas e removidas são administradas com uma base de dados SQLite.
+
 [EN]
 Website built in Python, Django and Bulma framework(CSS)
 Add any city you wish with the search bar, then watch the city being included with a simple animation.
